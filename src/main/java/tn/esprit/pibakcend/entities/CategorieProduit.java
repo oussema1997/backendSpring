@@ -1,15 +1,29 @@
 package tn.esprit.pibakcend.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
+//import java.util.Set;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString
+@AllArgsConstructor
+@Table
 @Entity
 public class CategorieProduit implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCategorieProduit;
+    private Long idCategorieProduit;
+    @Column
     private String nomCategorieProduit;
+
+    @OneToMany//(mappedBy = "CategorieProduit")
+    @JsonIgnore
+    List<Produit> produits;
 }

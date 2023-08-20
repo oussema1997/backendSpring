@@ -28,11 +28,11 @@ public class Evenement implements Serializable {
     private Date dateFin;
     private String Lieu;
 
-    @ManyToMany (mappedBy = "evenements")
-    @JsonIgnore
-    private Set<User> utilisateurs;
+    //@ManyToMany (mappedBy = "evenements")
+    //@JsonIgnore
+    //private Set<User> utilisateurs;
 
-    @ManyToMany
-    private Set<Formation> formations;
+    //@ManyToMany
+    //private Set<Formation> formations;
 
 }
