@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Check out the code from GitHub
+                git url: 'https://github.com/oussema1997/backendSpring.git'
+            }
+        }
+         
+        stage('Build') {
+            steps {
+                // Build the Maven project
+                sh 'mvn clean install'
+            }
+        }
+        
+        stage('Deploy to Tomcat') {
+            steps {
+                // Deploy the built WAR file to Tomcat using the Deploy to Container plugin
+                deploy adapters: [tomcat9(credentialsId: '1f706c92-a65d-4f53-b3ba-1a89a3b82f29', url: 'http://localhost:9091')],
+                       contextPath: '/',
+                       war: '**/*.war'
+            }
+        }
+    }
+}
