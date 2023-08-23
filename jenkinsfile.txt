@@ -6,9 +6,16 @@ pipeline {
             steps {
                 // Build the Maven project
                 sh 'mvn clean install'
+                dir('target') {
+                    sh 'mkdir -p WEB-INF/classes'
+                    sh 'mv your-app.jar WEB-INF/classes/'
+                    sh 'echo "<web-app></web-app>" > WEB-INF/web.xml'
+                    sh 'jar -cvf your-app.war *'
+                }
             }
         }
         
+
         stage('Deploy to Tomcat') {
             steps {
                 // Deploy the built WAR file to Tomcat using the Deploy to Container plugin
