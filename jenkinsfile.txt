@@ -8,7 +8,7 @@ pipeline {
                 sh 'mvn clean install'
                 dir('target') {
                     sh 'mkdir -p WEB-INF/classes'
-                    sh 'mv your-app.jar WEB-INF/classes/'
+                    sh 'mv Pi-bakcend-1.0.jar WEB-INF/classes/'
                     sh 'echo "<web-app></web-app>" > WEB-INF/web.xml'
                     sh 'jar -cvf your-app.war *'
                 }
@@ -19,7 +19,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 // Deploy the built WAR file to Tomcat using the Deploy to Container plugin
-                deploy adapters: [tomcat9(credentialsId: '1f706c92-a65d-4f53-b3ba-1a89a3b82f29', url: 'http://localhost:9091')],
+                deploy adapters: [tomcat9(credentialsId: '1f706c92-a65d-4f53-b3ba-1a89a3b82f29', path: '/var/lib/tomcat9/webapps')],
                        contextPath: '/',
                        war: '**/*.war'
             }
