@@ -25,7 +25,7 @@ pipeline {
             def tomcatUsername = 'deployer' // Tomcat username
             def tomcatPassword = 'pass123' // Tomcat password
 
-            def tomcatUrl = "http://localhost:8080/manager/text/deploy?path=${contextPath}"
+            def tomcatUrl = "http://localhost:9091/manager/text/deploy?path=${contextPath}"
 
             // Deploy to Tomcat using the credentials
             sh "curl --user ${tomcatUsername}:${tomcatPassword} -T ${warFilePath} ${tomcatUrl}"
