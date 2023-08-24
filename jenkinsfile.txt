@@ -17,12 +17,20 @@ pipeline {
         
 
         stage('Deploy to Tomcat') {
-            steps {
-                // Deploy the built WAR file to Tomcat using the Deploy to Container plugin
-                deploy adapters: [tomcat9(credentialsId: '1f706c92-a65d-4f53-b3ba-1a89a3b82f29', path: '/var/lib/tomcat9/webapps')],
-                       contextPath: '/',
-                       war: '**/*.war'
-            }
+    steps {
+        script {
+            def contextPath = '/Pi-bakcend-1.0' // Specify your desired context path
+            def warFilePath = 'target/Pi-bakcend-1.0.war' // Path to the generated WAR file
+
+            def tomcatUsername = 'deployer' // Tomcat username
+            def tomcatPassword = 'pass123' // Tomcat password
+
+            def tomcatUrl = "http://localhost:8080/manager/text/deploy?path=${contextPath}"
+
+            // Deploy to Tomcat using the credentials
+            sh "curl --user ${tomcatUsername}:${tomcatPassword} -T ${warFilePath} ${tomcatUrl}"
         }
     }
+}
+
 }
