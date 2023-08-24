@@ -10,7 +10,7 @@ pipeline {
                     sh 'mkdir -p WEB-INF/classes'
                     sh 'mv Pi-bakcend-1.0.jar WEB-INF/classes/'
                     sh 'echo "<web-app></web-app>" > WEB-INF/web.xml'
-                    sh 'jar -cvf your-app.war *'
+                    sh 'jar -cvf Pi-bakcend-1.0.war *'
                 }
             }
         }
