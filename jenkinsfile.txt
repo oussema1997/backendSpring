@@ -20,10 +20,8 @@ pipeline {
                 sh "sudo chown tomcat:tomcat ${tomcatWebappsDir}/Pi-bakcend-1.0.war"
             }
         }
-    }
-        
 
-        stage('Deploy to Tomcat') {
+  stage('Deploy to Tomcat') {
     steps {
         script {
             def contextPath = '/Pi-bakcend-1.0' // Specify your desired context path
