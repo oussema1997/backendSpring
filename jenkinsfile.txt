@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('Build and Deploy') {
             steps {
+                script {
                 // Build the Maven project
                 sh 'mvn clean install'
                 
@@ -18,7 +19,7 @@ pipeline {
                 sh "sudo chown tomcat:tomcat ${tomcatWebappsDir}/Pi-bakcend-1.0.war"
             }
         }
-        
+       }
         stage('Deploy to Tomcat') {
             steps {
                 script {
