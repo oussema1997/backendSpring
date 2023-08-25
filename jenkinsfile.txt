@@ -13,8 +13,6 @@ pipeline {
                     sh 'echo "<web-app></web-app>" > WEB-INF/web.xml'
                     sh 'jar -cvf Pi-bakcend-1.0.war *'
                 }
-                
-                // Deploy to Tomcat webapps directory
                 def tomcatWebappsDir = '/var/lib/tomcat9/webapps'
                 sh "sudo cp target/Pi-bakcend-1.0.war ${tomcatWebappsDir}"
                 sh "sudo chown tomcat:tomcat ${tomcatWebappsDir}/Pi-bakcend-1.0.war"
