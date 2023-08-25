@@ -1,26 +1,33 @@
 pipeline {
     agent any
     
-    stages {        
-        stage('Build') {
+   stage('Build and Deploy') {
             steps {
                 // Build the Maven project
                 sh 'mvn clean install'
+                
+                // Convert JAR to WAR
                 dir('target') {
                     sh 'mkdir -p WEB-INF/classes'
                     sh 'mv Pi-bakcend-1.0.jar WEB-INF/classes/'
                     sh 'echo "<web-app></web-app>" > WEB-INF/web.xml'
                     sh 'jar -cvf Pi-bakcend-1.0.war *'
                 }
+                
+                // Deploy to Tomcat webapps directory
+                def tomcatWebappsDir = '/var/lib/tomcat9/webapps'
+                sh "sudo cp target/Pi-bakcend-1.0.war ${tomcatWebappsDir}"
+                sh "sudo chown tomcat:tomcat ${tomcatWebappsDir}/Pi-bakcend-1.0.war"
             }
         }
+    }
         
 
         stage('Deploy to Tomcat') {
     steps {
         script {
             def contextPath = '/Pi-bakcend-1.0' // Specify your desired context path
-            def warFilePath = '/var/lib/jenkins/workspace/jobSpring/target/Pi-bakcend-1.0.war' // Path to the generated WAR file
+            def warFilePath = '/var/lib/tomcat9/webapps/Pi-bakcend-1.0.war' // Path to the generated WAR file
 
             def tomcatUsername = 'deployer' // Tomcat username
             def tomcatPassword = 'pass123' // Tomcat password
