@@ -20,7 +20,8 @@ pipeline {
     steps {
         script {
             def contextPath = '/Pi-bakcend-1.0' // Specify your desired context path
-            def warFilePath = 'target/Pi-bakcend-1.0.war' // Path to the generated WAR file
+            def warFilePath = '/var/lib/jenkins/workspace/jobSpring/target/Pi-bakcend-1.0.war
+' // Path to the generated WAR file
 
             def tomcatUsername = 'deployer' // Tomcat username
             def tomcatPassword = 'pass123' // Tomcat password
