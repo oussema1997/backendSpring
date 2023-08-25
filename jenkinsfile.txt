@@ -1,7 +1,7 @@
 pipeline {
     agent any
- stages {
-   stage('Build and Deploy') {
+    stages {
+        stage('Build and Deploy') {
             steps {
                 // Build the Maven project
                 sh 'mvn clean install'
@@ -20,22 +20,26 @@ pipeline {
                 sh "sudo chown tomcat:tomcat ${tomcatWebappsDir}/Pi-bakcend-1.0.war"
             }
         }
+        
+        stage('Deploy to Tomcat') {
+            steps {
+                script {
+                    // Specify your desired context path
+                    def contextPath = '/Pi-bakcend-1.0'
+                    // Path to the generated WAR file
+                    def warFilePath = '/var/lib/tomcat9/webapps/Pi-bakcend-1.0.war'
 
-  stage('Deploy to Tomcat') {
-    steps {
-        script {
-            def contextPath = '/Pi-bakcend-1.0' // Specify your desired context path
-            def warFilePath = '/var/lib/tomcat9/webapps/Pi-bakcend-1.0.war' // Path to the generated WAR file
+                    // Tomcat username and password
+                    def tomcatUsername = 'deployer'
+                    def tomcatPassword = 'pass123'
 
-            def tomcatUsername = 'deployer' // Tomcat username
-            def tomcatPassword = 'pass123' // Tomcat password
+                    // URL to deploy the WAR file using Tomcat manager
+                    def tomcatUrl = "http://localhost:9091/manager/text/deploy?path=${contextPath}"
 
-            def tomcatUrl = "http://localhost:9091/manager/text/deploy?path=${contextPath}"
-
-            // Deploy to Tomcat using the credentials
-            sh "curl --user ${tomcatUsername}:${tomcatPassword} -T ${warFilePath} ${tomcatUrl}"
+                    // Deploy to Tomcat using the credentials
+                    sh "curl --user ${tomcatUsername}:${tomcatPassword} -T ${warFilePath} ${tomcatUrl}"
+                }
+            }
         }
     }
-}
-}
 }
